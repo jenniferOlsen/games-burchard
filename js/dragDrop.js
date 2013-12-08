@@ -18,17 +18,8 @@
     e.preventDefault(); 
   }
   function handleDrop(e) {
-    e.preventDefault();
-    if (draggingObject != this) {
-      var draggingGrandpa = draggingObject.parentElement.parentElement;
-      var draggedToGrandpa = this.parentElement.parentElement;
-      var draggingObjectId = draggingObject.firstChild.id;
-      inventoryObject.add(draggedToGrandpa.id, draggingObjectId);
-      inventoryObject.remove(draggingGrandpa.id, draggingObjectId);
-      draggingObject.innerHTML = this.innerHTML;
-      this.innerHTML = e.dataTransfer.getData('text/html');
-      this.classList.remove('empty');
-      draggingObject.classList.add('empty');
-    }
+    var dragAppliedTo = this;
+    game.things.dropItemInto(draggingObject, dragAppliedTo.parentElement.parentElement.id);
+    e.preventDefault(); 
   }
 })();

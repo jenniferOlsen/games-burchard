@@ -21,6 +21,20 @@
 
 // You are one of those who like to know how thing work inside?
 // Let me show you the cogs that make impress.js run...
+var game = {
+  stepsTaken: [],
+  updateAfterStep: function(stepId){
+    if (this.stepsTaken.length < 1 || stepId !== this.stepsTaken[this.stepsTaken.length-1]){
+      this.stepsTaken.push(stepId);           
+      var numberOfSteps = this.stepsTaken.length;
+      var stepsElement = document.getElementById("steps");
+      var newStep = document.createElement("li");
+      newStep.innerHTML = "" + numberOfSteps +": <a href=#"+stepId+">"+stepId+"</a>";
+      var mostRecentStep = stepsElement.firstChild;
+      stepsElement.insertBefore(newStep, mostRecentStep);
+    };
+  }
+};
 (function ( document, window ) {
     'use strict';
     
@@ -412,6 +426,9 @@
             } else if (typeof step === "string") {
                 step = byId(step);
             }
+            if (!!step.id === true){
+              game.updateAfterStep(step.id); 
+            };
             return (step && step.id && stepsData["impress-" + step.id]) ? step : null;
         };
         
@@ -798,3 +815,4 @@
 //
 // I've learnt a lot when building impress.js and I hope this code and comments
 // will help somebody learn at least some part of it.
+
